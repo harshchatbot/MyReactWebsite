@@ -13,7 +13,7 @@ const schema = yup.object().shape({
     terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
 });
 
-function FormExample() {
+export default function FormExample() {
     return (
         <Formik
             validationSchema={schema}

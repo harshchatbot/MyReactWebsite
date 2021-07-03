@@ -4,7 +4,7 @@ import { Todos } from "./MyComponents/Todos";
 import { Footer } from "./MyComponents/Footer";
 import { AddTodo } from "./MyComponents/AddTodo";
 import { About } from "./MyComponents/About";
-import { FormExample } from "./MyComponents/Form";
+import { Form } from "./MyComponents/Form";
 import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
@@ -109,7 +109,7 @@ function App() {
           </Route>
 
           <Route exact path="/form">
-            <FormExample />
+            <Form />
           </Route>
 
         </Switch>
