@@ -4,6 +4,7 @@ import { Todos } from "./MyComponents/Todos";
 import { Footer } from "./MyComponents/Footer";
 import { AddTodo } from "./MyComponents/AddTodo";
 import { About } from "./MyComponents/About";
+import { Form } from "./MyComponents/Form";
 import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
@@ -105,6 +106,10 @@ function App() {
           </Route>
           <Route exact path="/about">
             <About />
+          </Route>
+
+          <Route exact path="/form">
+            <Form />
           </Route>
 
         </Switch>
