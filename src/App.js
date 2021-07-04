@@ -4,7 +4,8 @@ import { Todos } from "./MyComponents/Todos";
 import { Footer } from "./MyComponents/Footer";
 import { AddTodo } from "./MyComponents/AddTodo";
 import { About } from "./MyComponents/About";
-import  Form  from "./MyComponents/Form";
+import { Form } from "./MyComponents/Form";
+import {db} from './Firebase';
 import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
