@@ -14,39 +14,57 @@ export const Form = () => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [name, setName] = useState("");
+  const [country, setCountry] = useState("");
+
+  const splitButtonClick = (e1) => {
+    e1.preventDefault();
+    alert("Split button clicked")
+
+  }
+
+  const handleSelect = (e2) => {
+    e2.preventDefault();
+    setCountry(e2);
+    alert("Country selected")
+
+  }
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if(!email || !pass || !name){
+    if (!email || !pass || !name || !country) {
       alert("All fields are mandatory")
-      
-  } else{
+
+    } else {
 
 
 
-    db.collection('contacts').add({
-      email: email,
-      pass: pass,
-      name: name,
-    })
-      .then(() => {
-        alert("Data Saved");
+      db.collection('contacts').add({
+        email: email,
+        pass: pass,
+        name: name,
+        country: country,
       })
-      .catch((error) => {
-        alert(error.message);
-      });
+        .then(() => {
+          alert("Data Saved");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
 
-    setEmail("");
-    setPass("");
-    setName("");
+      setEmail("");
+      setPass("");
+      setName("");
+      setCountry("");
 
 
-  }
+    }
 
     //alert("Data Saved");
 
-     
+
   };
 
 
@@ -55,7 +73,7 @@ export const Form = () => {
 
     <form onSubmit={handleSubmit}>
 
-<div className="mb-3">
+      <div className="mb-3">
         <label for="exampleInputFirstName" className="form-label">First Name</label>
         <input type="text" className="form-control" id="exampleInputFirstName" onChange={(e) => setName(e.target.value)} />
       </div>
@@ -69,7 +87,29 @@ export const Form = () => {
         <label for="exampleInputPassword1" className="form-label">Password</label>
         <input type="password" className="form-control" id="exampleInputPassword1" onChange={(e) => setPass(e.target.value)} />
       </div>
-    
+
+
+
+
+      <div className="mb-3">
+        <button className="btn btn-secondary btn-sm" type="button" onClick={splitButtonClick}>
+          Select Country
+        </button>
+        <button type="button" className="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+          <span className="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul className="dropdown-menu">
+          <li><a className="dropdown-item" href="#" onClick={handleSelect}>India</a></li>
+          <li><a className="dropdown-item" href="#">US</a></li>
+          <li><a className="dropdown-item" href="#">UK</a></li>
+          <li><hr className="dropdown-divider" /></li>
+          <li><a className="dropdown-item" href="#">http://localhost:3000/</a></li>
+        </ul>
+      </div>
+
+
+
+
       <button type="submit" className="btn btn-primary" >Submit</button>
     </form>
 

@@ -24,6 +24,10 @@ export default function Header(props) {
               <li className="nav-item">
                 <Link className="nav-link" to="/form">Form</Link>
               </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="/counter">Counter</Link>
+              </li>
               
            
             </ul>

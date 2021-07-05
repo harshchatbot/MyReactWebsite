@@ -5,6 +5,7 @@ import { Footer } from "./MyComponents/Footer";
 import { AddTodo } from "./MyComponents/AddTodo";
 import { About } from "./MyComponents/About";
 import { Form } from "./MyComponents/Form";
+import Counter from "./MyComponents/Counter";
 import {db} from './Firebase';
 import React, { useState, useEffect } from 'react';
 import {
@@ -90,15 +91,18 @@ function App() {
   //])
   return (
     <>  {/*blank opening tag*/}
+  
 
       <Router>
-        <Header title="MyTodosList" searchBar={false} />
+        <Header title="MyTodosList" searchBar={true} />
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
           <Route exact path="/" render={() => {
             return (
-              <>
+
+              
+              <> 
                 <AddTodo addTodo={addTodo} />
                 <Todos todos={todos} onDelete={onDelete} />
               </>)
@@ -111,6 +115,12 @@ function App() {
 
           <Route exact path="/form">
             <Form />
+          </Route>
+
+          <Route exact path="/counter">
+            <Counter />   
+            <Counter by={5} />
+            <Counter by={10} />   
           </Route>
 
         </Switch>
