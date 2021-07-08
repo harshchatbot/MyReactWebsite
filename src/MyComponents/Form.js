@@ -25,7 +25,8 @@ export const Form = () => {
   const handleSelect = (e2) => {
     e2.preventDefault();
     setCountry(e2);
-    alert("Country selected")
+    //alert("Country selected")
+    console.log(e2)
 
   }
 
@@ -34,7 +35,8 @@ export const Form = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!email || !pass || !name || !country) {
+    //if (!email || !pass || !name || !country) {
+      if (!email || !pass || !name) {
       alert("All fields are mandatory")
 
     } else {
@@ -45,7 +47,7 @@ export const Form = () => {
         email: email,
         pass: pass,
         name: name,
-        country: country,
+        //country: country
       })
         .then(() => {
           alert("Data Saved");

@@ -14,7 +14,7 @@ export const Footer = () => {
     return (
         <footer className="bg-dark text-light py-3" style={footerStyle}>
             <p className="text-center">
-            Copyright &copy; TheTechFI.com
+            All Rights Reserverd 2020 Copyright &copy; TheTechFI.com
             </p>
             
         </footer>

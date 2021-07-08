@@ -1,4 +1,5 @@
 import './App.css';
+import './bootstrap.css'
 import Header from "./MyComponents/Header";
 import { Todos } from "./MyComponents/Todos";
 import { Footer } from "./MyComponents/Footer";
@@ -6,16 +7,20 @@ import { AddTodo } from "./MyComponents/AddTodo";
 import { About } from "./MyComponents/About";
 import { Form } from "./MyComponents/Form";
 import Counter from "./MyComponents/Counter";
+import TodoApp, {WelcomeComponent, ErrorComponent, ListTodosComponent, LogoutComponent, HeaderComponent , LoginComponent} from './TodoWebapp/TodoApp';
 import {db} from './Firebase';
 import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route, useHistory
 } from "react-router-dom";
+import {createBrowserHistory} from 'history'
 
 
 function App() {
+
+  
 
   let initTodo;
   if (localStorage.getItem("todos") === null) {
@@ -94,7 +99,9 @@ function App() {
   
 
       <Router>
-        <Header title="MyTodosList" searchBar={true} />
+        {/* <Header title="MyTodosList" searchBar={false} /> */}
+        <HeaderComponent/>
+        
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
@@ -118,10 +125,31 @@ function App() {
           </Route>
 
           <Route exact path="/counter">
-            <Counter />   
-            <Counter by={5} />
-            <Counter by={10} />   
+            {/* <CounterButton />   
+            <CounterButton by={5} />
+            <CounterButton by={10} />    */}
+            <Counter />
           </Route>
+
+          <Route exact path="/login">
+            <TodoApp />
+          </Route>
+
+          {/* <Route exact path="/welcome" component={WelcomeComponent}/> 
+          <Route exact path="/todos" component={ListTodosComponent}/>
+          <Route exact path="/logout" component={LogoutComponent}/> */}
+          {/* <Route  path="/welcome" component={WelcomeComponent}/> */}
+          <Route exct path="/todos" component={ListTodosComponent}/>
+          <Route  path="/logout" component={LogoutComponent}/>
+          
+
+          {/* keep this error compo line in end only else error  */}
+          {/* <Route exact path="" component={ErrorComponent}/>   */}
+          <Route component={ErrorComponent}/> 
+          
+          
+            
+        
 
         </Switch>
 
