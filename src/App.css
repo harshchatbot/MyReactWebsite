@@ -22,7 +22,9 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
+}  
+
+
 
 .App-link {
   color: #61dafb;
@@ -54,12 +56,10 @@
 } */
 
 html, body{
-  display: flex;
+  background: #c6c9cc !important;
   align-items: center;
   justify-content: center;
   font-family: 'Fira Sans', sans-serif;
-  padding-top: 60px;
-  background: #c6c9cc !important;
   font-weight: 400;
   height: 100%;
 }

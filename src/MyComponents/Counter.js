@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { HeaderComponent } from '../TodoWebapp/TodoApp';
 import './Counter.css'
+
 
 // function Counter ()  {
 //     return (
@@ -33,7 +35,8 @@ render() {
 
 
     return(
-
+<>
+{/* <HeaderComponent/> */}
         <div className="counter"> 
                 
         <CounterButton by={1} incrementMethod={this.increment} decrementMethod={this.decrement}/>
@@ -46,7 +49,7 @@ render() {
         
     </div>
 
-
+</>
     )
 
 }

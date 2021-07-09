@@ -39,3 +39,5 @@ export const AddTodo = (props) => {
         </div>
                     )
 }
+
+export default(AddTodo)

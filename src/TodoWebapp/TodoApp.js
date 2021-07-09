@@ -1,45 +1,68 @@
 import React, { Component } from 'react'
 import AuthenticationService from './AuthenticationService'
+import FooterCompo from '../MyComponents/Footer'
 import {
     BrowserRouter as Router,
     Switch,
     Route, Link
 } from "react-router-dom";
-import { withRouter } from 'react-router';
+
+import { Form } from "../MyComponents/Form";
+import Counter from "../MyComponents/Counter";
+import About from "../MyComponents/About";
+
+import {withRouter} from 'react-router';
+
+
 
 
 
 export class TodoApp extends Component {
 
-    
+
 
     render() {
 
 
 
-        
+
 
         return (
             <div className="TodoApp">
-                {/* {<LoginComponent />} */}
-                {/* <HeaderComponent /> */}
+                {/* {<LoginComponent />}
+                
+                <FooterCompo/> */}
                 {/* <WelcomeComponent/> */}
-                {/* <Router>
+                <Router>
 
                     <>
-                   
-                   
 
-                    <Route  path="/welcome" component={WelcomeComponent}/> 
-                    <Route  path="/login" component={LoginComponent}/>
-                    
+                        <HeaderComponent />
+                        <Switch>
 
+                            <Route exact path="/welcome" component={WelcomeComponent} />
+                            <Route exact path="/login" component={LoginComponent} />
 
-                    
-                    
-                    </>
+                            <Route exact path="/todos" component={ListTodosComponent} />
+                            <Route exact path="/logout" component={LogoutComponent} />
 
-                </Router> */}
+                            {/* <Route exact path="/about">
+                            <About />
+                        </Route> */}
+
+                            <Route exact path="/form">
+                                <Form />
+                            </Route>
+
+                            <Route exact path="/counter"><Counter /></Route>
+                            <Route exact path="/about"><About /></Route>
+
+                        </Switch>
+
+                        <FooterCompo />
+
+                </>
+                </Router>
             </div>
         )
 
@@ -56,7 +79,7 @@ export class TodoApp extends Component {
 export class WelcomeComponent extends Component {
 
 
-    constructor(props){
+    constructor(props) {
         super(props)
     }
 
@@ -68,7 +91,8 @@ export class WelcomeComponent extends Component {
             <>
 
                 <h1>Welcome!!</h1>
-                <div className="container">Welcome {this.props.match.params.name} to The TechFi, manage your links here <Link to="/todos">here</Link></div>
+                
+                {/* <div className="container">Welcome {this.props.match.params.name} to The TechFi, manage your links here <Link to="/todos">here</Link></div> */}
             </>
 
         )
@@ -81,7 +105,10 @@ export class WelcomeComponent extends Component {
 
 export function ErrorComponent(params) {
     return <div>
-        Error, Invalid Page
+
+        <>
+        <h1>Error, Invalid Page</h1>
+        </>
     </div>
 }
 
@@ -165,11 +192,11 @@ export class LoginComponent extends Component {
     constructor(props) {
 
         super(props)
-        
+
 
         this.state = {
             //give you name is username iif you want your name to appear in the field by default
-            username: '', 
+            username: '',
             password: '',
             hasLoginFailed: false,
             showsuccessmessage: false
@@ -180,7 +207,7 @@ export class LoginComponent extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.loginClicked = this.loginClicked.bind(this)
 
-        
+
         console.log(props)
 
     }
@@ -219,24 +246,28 @@ export class LoginComponent extends Component {
     loginClicked() {
 
         //console.log(this.state)
-        
+
 
 
 
         //usern: username, pass: test@123
         if (this.state.username === 'username' && this.state.password === '123') {
 
-            
+
             this.props.history.push("/welcome");  //directly redirect to welcome component
             //this.props.history.push({WelcomeComponent});  //directly redirect to welcome component
 
-            
+
+            if(!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
 
             AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password)   //this is how we called method
-         
+
             //this.props.useHistory.push("/")
-            //this.setState({ showsuccessmessage: true })  //if success then update the state 
-            //this.setState({ hasLoginFailed: false })
+            this.setState({ showsuccessmessage: true })  //if success then update the state 
+            this.setState({ hasLoginFailed: false })
 
         }
 
@@ -263,7 +294,7 @@ export class LoginComponent extends Component {
                 <div className="container my-3">
                     {/* User Name :<input type="text" name="username" value={this.state.username} onChange={this.handeleUsernameChange}/> */}
                     {/* <showInvalidCredentials hasLoginFailed={this.state.hasLoginFailed} /> */}
-                    <showLoginSuccessMessage showsuccessmessage={this.state.showsuccessmessage}/>
+                    {/* <ShowLoginSuccessMessage showsuccessmessage={this.state.showsuccessmessage}/> */}
 
                     {/* to remove func showInvalidCredentials using && operator and is easier */}
                     {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}
@@ -281,20 +312,20 @@ export class LoginComponent extends Component {
 
 
                     <div className="form-group">
-                    <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                        <div className="custom-control custom-checkbox">
+                            <input type="checkbox" className="custom-control-input" id="customCheck1" />
+                            <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                        </div>
                     </div>
-                </div>
 
                     {/* User Name :<input type="text" name="username" value={this.state.username} onChange={this.handleChange} />
                 Password : <input type="password" name="password" value={this.state.password} onChange={this.handleChange} /> */}
                     <button className="mb-3 ml-auto btn btn-success" onClick={this.loginClicked}>Login</button>
-                    
+
 
                     <p className="forgot-password text-right">
-                    Already registered <a href="#">sign in?</a>
-                </p>
+                        Already registered <a href="#">sign in?</a>
+                    </p>
 
                 </div>
             </>
@@ -310,6 +341,14 @@ export class LoginComponent extends Component {
 
 export class LogoutComponent extends Component {
     render() {
+
+        //below code auto refresh solution
+        if(!window.location.hash) {
+            window.location = window.location + '#loaded';
+            window.location.reload();
+        }
+
+
         return (
             <>
                 <h1>You are logged out</h1>
@@ -325,9 +364,9 @@ export class LogoutComponent extends Component {
 export class HeaderComponent extends Component {
 
 
-    constructor(props){
-        super(props)
-    }
+    // constructor(props) {
+    //     super(props)
+    // }
 
 
 
@@ -337,70 +376,125 @@ export class HeaderComponent extends Component {
         console.log(userLoggedIn);
 
 
+        
 
         return (
             //this <nav is navigation
             //navbar-expand-lg this is how arrangement of menu items like all comping together in left 
             //navbar-light bg-light
 
-            <header>
-                <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+            // <header>
+            //     <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+            //         <div className="container-fluid">
+            //             <Link className="navbar-brand" to="/">{this.title}</Link>
+            //             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            //                 <span className="navbar-toggler-icon"></span>
+            //             </button>
+            //             <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            //                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            //                     <li className="nav-item">
+            //                         <Link className="nav-link active" aria-current="page" to="/">Home</Link>
+            //                     </li>
+            //                     {userLoggedIn &&  <li className="nav-item">
+            //                         <Link className="nav-link" to="/about">About</Link>
+            //                     </li>}
+
+            //                     {userLoggedIn &&  <li className="nav-item">
+            //                         <Link className="nav-link" to="/form">Form</Link>
+            //                     </li>}
+
+            //                     {userLoggedIn &&  <li className="nav-item">
+            //                         <Link className="nav-link" to="/counter">Counter</Link>
+            //                     </li>}
+
+            //                     {userLoggedIn && <li className="nav-item">
+            //                         <Link className="nav-link" to="/todos">Todos List</Link>
+            //                     </li>}
+
+            //                     {userLoggedIn && <li className="nav-item">
+            //                         <Link className="nav-link" to="/welcome/username">Welcome</Link>
+            //                     </li>}
+
+
+
+            //                     <ul className="nav-bar navbar-collapse justify-content-end ml-auto">
+            //                         {userLoggedIn &&  <li><Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>Logout</Link></li>}
+            //                     </ul>
+
+            //                     <ul className="nav-bar navbar-collapse justify-content-end">
+            //                         {!userLoggedIn && <li><Link className="nav-link" to="/login">Login</Link></li>}
+            //                     </ul>
+
+
+
+            //                 </ul>
+            //                 {this.searchBar ? <form className="d-flex">
+            //                     <input classNameName="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+            //                     <button className="btn btn-outline-success" type="submit">Search</button>
+            //                 </form> : ""}
+
+            //             </div>
+
+            //         </div>
+
+
+
+            //     </nav>
+            // </header>
+
+            <header className="app-header header">
+                <nav className="navbar navbar-expand-md navbar-dark bg-dark navbar-fixed-top">
+
+
+
                     <div className="container-fluid">
                         <Link className="navbar-brand" to="/">{this.title}</Link>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li className="nav-item">
+                            <ul className="navbar-nav">
+
+                                <li className="nav-link">
                                     <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                                 </li>
-                                {userLoggedIn &&  <li className="nav-item">
+                                {userLoggedIn && <li className="nav-link" >
                                     <Link className="nav-link" to="/about">About</Link>
                                 </li>}
 
-                                {userLoggedIn &&  <li className="nav-item">
+                                {userLoggedIn && <li className="nav-link" >
                                     <Link className="nav-link" to="/form">Form</Link>
                                 </li>}
 
-                                {userLoggedIn &&  <li className="nav-item">
+                                {userLoggedIn && <li className="nav-link" >
                                     <Link className="nav-link" to="/counter">Counter</Link>
                                 </li>}
 
-                                {userLoggedIn && <li className="nav-item">
+                                {userLoggedIn && <li className="nav-link" >
                                     <Link className="nav-link" to="/todos">Todos List</Link>
                                 </li>}
 
-                                {userLoggedIn && <li className="nav-item">
+                                {userLoggedIn && <li className="nav-link" >
                                     <Link className="nav-link" to="/welcome/username">Welcome</Link>
                                 </li>}
 
 
-
-                                <ul className="nav-bar navbar-collapse justify-content-end ml-auto">
-                                    {userLoggedIn &&  <li><Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>Logout</Link></li>}
-                                </ul>
-
-                                <ul className="nav-bar navbar-collapse justify-content-end">
-                                    {!userLoggedIn && <li><Link className="nav-link" to="/login">Login</Link></li>}
-                                </ul>
-
-
-
                             </ul>
-                            {this.searchBar ? <form className="d-flex">
-                                <input classNameName="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                                <button className="btn btn-outline-success" type="submit">Search</button>
-                            </form> : ""}
+
+                            <ul className="nav-bar navbar-collapse justify-content-end">
+                                {userLoggedIn && <li><Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>Logout</Link></li>}
+                                {!userLoggedIn && <li><Link className="nav-link" to="/login">Login</Link></li>}
+                            </ul>
 
                         </div>
 
                     </div>
 
-
-
                 </nav>
+
             </header>
+
+
         )
 
     }
@@ -432,5 +526,5 @@ export class HeaderComponent extends Component {
 
 
 
-export default withRouter(TodoApp)
+export default TodoApp
 

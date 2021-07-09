@@ -11,6 +11,7 @@ class AuthenticationService {
         //here remove session storage item ok
         sessionStorage.removeItem('authenticatedUser')
         console.log('logged OUT')
+        
     }
 
     isUserLoggedIn() {
@@ -20,7 +21,9 @@ class AuthenticationService {
 
         if (user === null) {
 
+            console.log("User",user)
             return false
+            
 
         } else {
 
