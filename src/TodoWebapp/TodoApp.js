@@ -3,14 +3,13 @@ import AuthenticationService from './AuthenticationService'
 import {
     BrowserRouter as Router,
     Switch,
-    Route, useHistory, Link, Redirect
+    Route, Link
 } from "react-router-dom";
-import { createBrowserHistory } from 'history';
 import { withRouter } from 'react-router';
 
 
 
-class TodoApp extends Component {
+export class TodoApp extends Component {
 
     
 
@@ -25,7 +24,7 @@ class TodoApp extends Component {
                 {/* {<LoginComponent />} */}
                 {/* <HeaderComponent /> */}
                 {/* <WelcomeComponent/> */}
-                <Router>
+                {/* <Router>
 
                     <>
                    
@@ -40,7 +39,7 @@ class TodoApp extends Component {
                     
                     </>
 
-                </Router>
+                </Router> */}
             </div>
         )
 
@@ -55,6 +54,7 @@ class TodoApp extends Component {
 
 
 export class WelcomeComponent extends Component {
+
 
     constructor(props){
         super(props)
@@ -131,7 +131,7 @@ export class ListTodosComponent extends Component {
                                 this.state.todos.map(
                                     todo =>  //this arrow func defines how each of these elements should be shown
 
-                                        <tr>
+                                        <tr key={todo.id}>
                                             <td>{todo.id}</td>
                                             <td>{todo.description}</td>
                                             <td>{todo.targetDate.toString()}</td>
@@ -168,10 +168,11 @@ export class LoginComponent extends Component {
         
 
         this.state = {
-            username: 'Harsh veer',
+            //give you name is username iif you want your name to appear in the field by default
+            username: '', 
             password: '',
             hasLoginFailed: false,
-            showSuccessMessage: false
+            showsuccessmessage: false
 
         }
         //this.handeleUsernameChange = this.handeleUsernameChange.bind(this)
@@ -232,19 +233,9 @@ export class LoginComponent extends Component {
             
 
             AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password)   //this is how we called method
-            //alert("Success")
-            //console.log("success")
-            //console.log(this.props)
-            
-            //this.props.history.push(`/welcome/${this.state.username}`);
-
-            
-
-            // return <Redirect to="/welcome" />
-
          
             //this.props.useHistory.push("/")
-            //this.setState({ showSuccessMessage: true })  //if success then update the state 
+            //this.setState({ showsuccessmessage: true })  //if success then update the state 
             //this.setState({ hasLoginFailed: false })
 
         }
@@ -253,7 +244,7 @@ export class LoginComponent extends Component {
 
             //alert("Failed")
             //console.log("Failed")
-            this.setState({ showSuccessMessage: false })
+            this.setState({ showsuccessmessage: false })
             this.setState({ hasLoginFailed: true })
 
         }
@@ -268,29 +259,43 @@ export class LoginComponent extends Component {
             //this below empty tag is basically called react fragment, or we can use <div? tag also in place of empty tags
             <>
 
-                <h1>Login</h1>
-                <div className="container">
+                <h1 className="text-center">Login</h1>
+                <div className="container my-3">
                     {/* User Name :<input type="text" name="username" value={this.state.username} onChange={this.handeleUsernameChange}/> */}
                     {/* <showInvalidCredentials hasLoginFailed={this.state.hasLoginFailed} /> */}
-                    <showLoginSuccessMessage showSuccessMessage={this.state.showSuccessMessage} />
+                    <showLoginSuccessMessage showsuccessmessage={this.state.showsuccessmessage}/>
 
                     {/* to remove func showInvalidCredentials using && operator and is easier */}
                     {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}
-                    {this.state.showSuccessMessage && <div>Login Success</div>}
+                    {this.state.showsuccessmessage && <div>Login Success</div>}
 
                     <div className="mb-3">
-                        <label for="InputUserName" className="form-label">User Name</label>
-                        <input type="text" name="username" value={this.state.username} onChange={this.handleChange} />
+                        <label htmlFor="InputUserName" className="form-label">User Name</label>
+                        <input type="text" name="username" className="form-control" placeholder="Enter username" value={this.state.username} onChange={this.handleChange} />
                     </div>
 
                     <div className="mb-3">
-                        <label for="InputPassword1" className="form-label">Password</label>
-                        <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
+                        <label htmlFor="InputPassword1" className="form-label">Password</label>
+                        <input type="password" name="password" className="form-control" placeholder="Enter password" value={this.state.password} onChange={this.handleChange} />
                     </div>
+
+
+                    <div className="form-group">
+                    <div className="custom-control custom-checkbox">
+                        <input type="checkbox" className="custom-control-input" id="customCheck1" />
+                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                    </div>
+                </div>
 
                     {/* User Name :<input type="text" name="username" value={this.state.username} onChange={this.handleChange} />
                 Password : <input type="password" name="password" value={this.state.password} onChange={this.handleChange} /> */}
-                    <button className="btn btn-success" onClick={this.loginClicked}>Login</button>
+                    <button className="mb-3 ml-auto btn btn-success" onClick={this.loginClicked}>Login</button>
+                    
+
+                    <p className="forgot-password text-right">
+                    Already registered <a href="#">sign in?</a>
+                </p>
+
                 </div>
             </>
 
@@ -320,11 +325,17 @@ export class LogoutComponent extends Component {
 export class HeaderComponent extends Component {
 
 
+    constructor(props){
+        super(props)
+    }
+
+
 
     render() {
 
         const userLoggedIn = AuthenticationService.isUserLoggedIn();
         console.log(userLoggedIn);
+
 
 
         return (
@@ -344,26 +355,34 @@ export class HeaderComponent extends Component {
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                                 </li>
-                                <li className="nav-item">
+                                {userLoggedIn &&  <li className="nav-item">
                                     <Link className="nav-link" to="/about">About</Link>
-                                </li>
+                                </li>}
 
-                                <li className="nav-item">
+                                {userLoggedIn &&  <li className="nav-item">
                                     <Link className="nav-link" to="/form">Form</Link>
-                                </li>
+                                </li>}
 
-                                <li className="nav-item">
+                                {userLoggedIn &&  <li className="nav-item">
                                     <Link className="nav-link" to="/counter">Counter</Link>
-                                </li>
+                                </li>}
+
+                                {userLoggedIn && <li className="nav-item">
+                                    <Link className="nav-link" to="/todos">Todos List</Link>
+                                </li>}
+
+                                {userLoggedIn && <li className="nav-item">
+                                    <Link className="nav-link" to="/welcome/username">Welcome</Link>
+                                </li>}
 
 
 
-                                <ul classname="nav-bar navbar-collapse justify-content-end ml-auto">
-                                    <li><Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>Logout</Link></li>
+                                <ul className="nav-bar navbar-collapse justify-content-end ml-auto">
+                                    {userLoggedIn &&  <li><Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>Logout</Link></li>}
                                 </ul>
 
-                                <ul classname="nav-bar navbar-collapse justify-content-end">
-                                    <li><Link className="nav-link" to="/login">Login</Link></li>
+                                <ul className="nav-bar navbar-collapse justify-content-end">
+                                    {!userLoggedIn && <li><Link className="nav-link" to="/login">Login</Link></li>}
                                 </ul>
 
 
@@ -401,28 +420,16 @@ export class HeaderComponent extends Component {
 // }
 
 
-// function showLoginSuccessMessage(props) {
+// function ShowLoginSuccessMessage(props) {
 
-//     if (props.showSuccessMessage) {
+//     if (props.showsuccessmessage) {
 
 //         return <div>Login Success</div>
 //     }
 //     return null
 // }
 
-function WelcomeRouting (){
 
-    let history = useHistory();
-  
-      history.push("/welcome");
-    
-  }
-
-
-  const Appli = (props) => {
-    const history = useHistory();
-    history.push("/welcome");
-}
 
 
 export default withRouter(TodoApp)

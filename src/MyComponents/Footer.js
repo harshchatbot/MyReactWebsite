@@ -1,22 +1,19 @@
-import React from 'react'
-//import './footer.css'
+import React, { Component } from "react";
 
-export const Footer = () => {
+export class FooterCompo extends Component{
 
-    let footerStyle = {
-        position: "relative",
-        top: "70vh",
-        width: "100%",
-        border: "2px solid red"
-    }
+  render(){
 
 
-    return (
-        <footer className="bg-dark text-light py-3" style={footerStyle}>
-            <p className="text-center">
-            All Rights Reserverd 2020 Copyright &copy; TheTechFI.com
-            </p>
-            
-        </footer>
+    return(
+
+      <footer className="footer" >
+    <span className="text-muted justify-content-end">The TechFi.com</span>
+    </footer>
+
     )
+
+  }
 }
+
+export default FooterCompo

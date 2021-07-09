@@ -13,15 +13,16 @@ export default class HeaderComponent extends Component{
   }
 
     render(){
+      
 
-  // const userLoggedIn = AuthenticationService.isUserLoggedIn();
-  //       console.log(userLoggedIn);
+   const userLoggedIn = AuthenticationService.isUserLoggedIn();
+         console.log(userLoggedIn);
 
     return (
       //this <nav is navigation
       //navbar-expand-lg this is how arrangement of menu items like all comping together in left 
                                                 //navbar-light bg-light
-        <nav className="navbar navbar-expand-md navbar-dark bg-dark">   
+        <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">   
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">{this.title}</Link>  
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,22 +33,22 @@ export default class HeaderComponent extends Component{
               <li className="nav-item">
                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
               </li>
-              <li className="nav-item">
+              {userLoggedIn && <li className="nav-item">
                 <Link className="nav-link" to="/about">About</Link>
-              </li>
+              </li>}
 
-              <li className="nav-item">
+              {userLoggedIn && <li className="nav-item">
                 <Link className="nav-link" to="/form">Form</Link>
-              </li>
+              </li>}
 
-              <li className="nav-item">
+              {userLoggedIn && <li className="nav-item">
                 <Link className="nav-link" to="/counter">Counter</Link>
-              </li>
+              </li>}
 
               
 
               <ul classname="nav-bar navbar-collapse justify-content-end ml-auto">
-              <li><Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>Logout</Link></li>
+              {userLoggedIn && <li><Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>Logout</Link></li>}
               </ul>
 
               <ul classname="nav-bar navbar-collapse justify-content-end">

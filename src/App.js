@@ -2,25 +2,25 @@ import './App.css';
 import './bootstrap.css'
 import Header from "./MyComponents/Header";
 import { Todos } from "./MyComponents/Todos";
-import { Footer } from "./MyComponents/Footer";
+import FooterCompo from "./MyComponents/Footer";
 import { AddTodo } from "./MyComponents/AddTodo";
 import { About } from "./MyComponents/About";
 import { Form } from "./MyComponents/Form";
 import Counter from "./MyComponents/Counter";
-import TodoApp, {WelcomeComponent, ErrorComponent, ListTodosComponent, LogoutComponent, HeaderComponent , LoginComponent} from './TodoWebapp/TodoApp';
-import {db} from './Firebase';
+import TodoApp, { WelcomeComponent, ErrorComponent, ListTodosComponent, LogoutComponent, HeaderComponent, LoginComponent } from './TodoWebapp/TodoApp';
+import { db } from './Firebase';
 import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route, useHistory
 } from "react-router-dom";
-import {createBrowserHistory} from 'history'
+import { createBrowserHistory } from 'history'
 
 
 function App() {
 
-  
+
 
   let initTodo;
   if (localStorage.getItem("todos") === null) {
@@ -96,25 +96,28 @@ function App() {
   //])
   return (
     <>  {/*blank opening tag*/}
-  
+
+<div style={{ 
+      backgroundImage: `url("https://via.placeholder.com/500")` 
+    }}></div>
 
       <Router>
-        {/* <Header title="MyTodosList" searchBar={false} /> */}
-        <HeaderComponent/>
-        
+        <Header title="MyTodosList" searchBar={false} /> 
+        {/* <HeaderComponent /> */}
+
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
           <Route exact path="/" render={() => {
             return (
 
-              
-              <> 
+
+              <>
                 <AddTodo addTodo={addTodo} />
                 <Todos todos={todos} onDelete={onDelete} />
               </>)
           }}>
-            
+
           </Route>
           <Route exact path="/about">
             <About />
@@ -131,29 +134,34 @@ function App() {
             <Counter />
           </Route>
 
-          <Route exact path="/login">
+          {/* <Route exact path="/login">
             <TodoApp />
-          </Route>
+          </Route> */}
 
           {/* <Route exact path="/welcome" component={WelcomeComponent}/> 
           <Route exact path="/todos" component={ListTodosComponent}/>
           <Route exact path="/logout" component={LogoutComponent}/> */}
           {/* <Route  path="/welcome" component={WelcomeComponent}/> */}
-          <Route exct path="/todos" component={ListTodosComponent}/>
-          <Route  path="/logout" component={LogoutComponent}/>
-          
+          <Route exact path="/todos" component={ListTodosComponent} />
+          <Route exact path="/logout" component={LogoutComponent} />
+
+
+          <Route exact path="/welcome" component={WelcomeComponent} />
+          <Route exact path="/login" component={LoginComponent} />
+
 
           {/* keep this error compo line in end only else error  */}
           {/* <Route exact path="" component={ErrorComponent}/>   */}
-          <Route component={ErrorComponent}/> 
-          
-          
-            
-        
+          <Route component={ErrorComponent} />
+
+
+
+
 
         </Switch>
 
-        <Footer />
+        <FooterCompo  />
+        
       </Router>
     </>
   );
